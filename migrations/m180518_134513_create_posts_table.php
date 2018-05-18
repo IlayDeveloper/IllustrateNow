@@ -17,6 +17,8 @@ class m180518_134513_create_posts_table extends Migration
             'title' => $this->string()->notNull(),
             'short_title' => $this->string(64)->notNull(),
             'description' => $this->string(256)->notNull(),
+            'content' => $this->string(),
+            'views' => $this->integer(),
             'created_at' => $this->datetime(),
             'updated_at' => $this->datetime(),
         ]);
