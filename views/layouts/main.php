@@ -63,15 +63,20 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="row">
+            <div class="col-md-8">
+                <?= $content ?>
+            </div>
+            <div class="col-md-4">
+                asdasd
+             </div>
+        </div>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; Vorona <?= date('Y') ?></p>
     </div>
 </footer>
 

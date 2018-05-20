@@ -7,8 +7,11 @@
 
 namespace app\commands;
 
+use app\models\Post;
 use app\models\Role;
 use app\models\User;
+use Faker\Factory;
+use Faker\Generator;
 use yii\console\Controller;
 use \Yii;
 
@@ -34,12 +37,19 @@ class StartUpController extends Controller
     ];
 
     /**
+     * @var Generator
+     */
+    private $faker;
+
+    /**
      * This command echoes what you have entered as the message.
      */
     public function actionIndex()
     {
-        $this->generateRoles();
-        $this->generateAdmin();
+        $this->faker = (new Factory())->create();
+//        $this->generateRoles();
+//        $this->generateAdmin();
+        $this->generatePosts();
     }
 
     public function actionClearing()
@@ -73,5 +83,24 @@ class StartUpController extends Controller
                 $role->save(false);
             }
         }
+    }
+
+    private function generatePosts($amount = 10)
+    {
+        for($i=0; $i < $amount; $i++){
+            $post = new Post();
+            $post->title = $this->faker->sentence(20);
+            $post->short_title = $this->faker->sentence(3);
+            $post->description = $this->faker->sentence(25);
+            $post->content = $this->faker->text(255);
+            $post->main_picture = 'example.png';
+            $post->views = $this->faker->numberBetween(0, 1000);
+            $post->save(false);
+        }
+    }
+
+    private function generateTags()
+    {
+        //
     }
 }

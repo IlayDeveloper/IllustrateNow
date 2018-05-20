@@ -1,0 +1,18 @@
+.post-preview-row {
+    border: 1px solid #E0E0E0;
+    margin-bottom: 1%;
+}
+
+.post-preview-photo {
+    padding: 2%;
+}
+
+.post-preview-title {
+    border-bottom: 1px solid #FF9933;
+}
+
+.post-preview-title a{
+    font-size: 20px ;
+    font-weight: bold;
+    color: #222222 ;
+}
