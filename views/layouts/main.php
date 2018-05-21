@@ -93,12 +93,13 @@ AppAsset::register($this);
                     tags tags tags <br>
                 </div>
                 <div class="footer-society">
-                    <span><?=Html::a(Yii::$app->name . '.ru', '/')?></span>
-                    <span>
-                        <?=Html::a(FA::icon(FA::_FACEBOOK), '#')?>
-                        <?=Html::a(FA::icon(FA::_VK), '#')?>
-                        <?=Html::a(FA::icon(FA::_TWITTER), '#')?>
-                    </span>
+                    <div class="row">
+                        <div class="col-md-5"><?=Html::a(Yii::$app->name . '.ru', '/')?></div>
+                        <div class="col-md-1"><?=Html::a(FA::icon(FA::_FACEBOOK), '#')?></div>
+                        <div class="col-md-1"><?=Html::a(FA::icon(FA::_VK), '#')?></div>
+                        <div class="col-md-1"><?=Html::a(FA::icon(FA::_TWITTER), '#')?></div>
+                        <div class="col-md-4"></div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">

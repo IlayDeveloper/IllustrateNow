@@ -13,9 +13,13 @@
 }
 
 .post-preview-title a{
-    font-size: 20px ;
+    font-size: 20px;
     font-weight: bold;
-    color: #222222 ;
+    color: #222222;
+    text-decoration: none;
+}
+.post-preview-title a:hover{
+    color: #34aaf4;
 }
 /*конец карточка поста*/
 
@@ -138,6 +142,10 @@
     font-size: 25px;
     color: #ffffff;
     text-decoration: none;
+}
+
+.footer-society a:hover{
+    color: #34aaf4;
 }
 
 /*Конец Футер*/
