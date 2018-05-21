@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use rmrevin\yii\fontawesome\FA;
 
 AppAsset::register($this);
 ?>
@@ -32,15 +33,17 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'СТАТЬИ', 'url' => ['/post']],
+            ['label' => 'ОБУЧЕНИЕ', 'url' => ['#']],
+            ['label' => 'ТЕСТЫ', 'url' => ['#']],
+            ['label' => 'ТОП 10', 'url' => ['#']],
+            ['label' => 'ФРИЛАНС', 'url' => ['#']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -52,7 +55,13 @@ AppAsset::register($this);
                 )
                 . Html::endForm()
                 . '</li>'
-            )
+            ),
+             '<form class="navbar-form navbar-left" role="search">
+                 <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Поиск">
+                 </div>
+                 <button type="submit" class="btn btn-default btn-link">'. FA::icon(FA::_SEARCH) . '</button>
+             </form>'
         ],
     ]);
     NavBar::end();
@@ -68,15 +77,35 @@ AppAsset::register($this);
                 <?= $content ?>
             </div>
             <div class="col-md-4">
-                asdasd
+                Реклама
              </div>
         </div>
     </div>
 </div>
 
 <footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; Vorona <?= date('Y') ?></p>
+    <div class="container content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="footer-tags">
+                    tags tags tags <br>
+                    tags tags tags <br>
+                    tags tags tags <br>
+                </div>
+                <div class="footer-society">
+                    <span><?=Html::a(Yii::$app->name . '.ru', '/')?></span>
+                    <span>
+                        <?=Html::a(FA::icon(FA::_FACEBOOK), '#')?>
+                        <?=Html::a(FA::icon(FA::_VK), '#')?>
+                        <?=Html::a(FA::icon(FA::_TWITTER), '#')?>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>&copy; Vorona <?= date('Y') ?></div>
+                <div>Копирование материалов запрещено</div>
+            </div>
+        </div>
     </div>
 </footer>
 
