@@ -85,13 +85,14 @@ class Post extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'short_title' => 'Short Title',
-            'description' => 'Description',
-            'content' => 'Content',
-            'views' => 'Views',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'title' => 'Заголовок',
+            'short_title' => 'Короткий заголовок',
+            'description' => 'Описание',
+            'content' => 'Контент',
+            'main_picture' => 'Главная картинка',
+            'views' => 'Просмотры',
+            'created_at' => 'Создан',
+            'updated_at' => 'Обновлен',
         ];
     }
 

@@ -1,8 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
+use \rmrevin\yii\fontawesome\FA;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode('Самые свежие посты') ?></h1>
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+<!--    --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 <!--    <p>-->
 <!--        <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>-->
@@ -41,11 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--                <?//= $post->postTags?>-->
             </div>
             <div>
-                Просмотров <?= $post->views?>
+                 <?=FA::icon(FA::_EYE)?>
+                 <?=$post->views?>
             </div>
         </div>
-        <div class="col-md-1">
-<!--   ссылка на картинку         --><?//= Html::img()?>
+        <div class="col-md-1 post-preview-icon">
+            <?= Html::a(FA::icon(FA::_ARROW_RIGHT)->size(FA::SIZE_2X)->pullRight(), '/post/view?id=' . $post->id)?>
         </div>
     </div>
 

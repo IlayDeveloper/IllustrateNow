@@ -21,6 +21,10 @@
 .post-preview-title a:hover{
     color: #34aaf4;
 }
+
+.post-preview-icon {
+    padding-right: 0%;
+}
 /*конец карточка поста*/
 
 /*Стили для интерфейса*/
@@ -39,7 +43,7 @@
 }
 
 .navbar-default .navbar-nav {
-    margin-right: 1%;
+    margin-right: 0%;
 }
 /* цвет текста (название сайта или бренда), при поднесении к нему курсора мышки или при его нахождении в фокусе */
 .navbar-default .navbar-brand:hover,
@@ -117,6 +121,14 @@
 }
 
 /*Конец Стили для навигационного меню*/
+
+/*Поисковик*/
+.mini-search{
+    border: solid #a6e1ec 2px;
+    margin-bottom: 2%;
+    padding: 1%;
+}
+/*Конец поисковик*/
 
 /*Футер*/
 .footer {
