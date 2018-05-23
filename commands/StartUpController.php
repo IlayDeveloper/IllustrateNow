@@ -54,10 +54,12 @@ class StartUpController extends Controller
 
     public function actionClearing()
     {
-        User::deleteAll();
+//        User::deleteAll();
         Role::deleteAll();
-        Yii::$app->db->createCommand('ALTER TABLE `users` AUTO_INCREMENT = 1')->execute();
+        Post::deleteAll();
+//        Yii::$app->db->createCommand('ALTER TABLE `users` AUTO_INCREMENT = 1')->execute();
         Yii::$app->db->createCommand('ALTER TABLE `roles` AUTO_INCREMENT = 1')->execute();
+        Yii::$app->db->createCommand('ALTER TABLE `posts` AUTO_INCREMENT = 1')->execute();
     }
 
     private function generateAdmin()

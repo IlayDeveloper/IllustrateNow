@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = "Admin";
 
     <div class="row post-preview-row">
         <div class="col-md-4 post-preview-photo">
-        <?= Html::a(Html::img($post->getLinkMainPicture()), '/admin/view?id=' . $post->id);?>
+        <?= Html::a(Html::img($post->getLinkMainThumbnail()), '/admin/view?id=' . $post->id);?>
         </div>
         <div class="col-md-5">
             <div>

@@ -11,7 +11,9 @@ use \app\models\Post;
 
 <div class="post-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(
+        ['options' => ['enctype' => 'multipart/form-data']]
+    ); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -21,10 +23,12 @@ use \app\models\Post;
 
     <?= $form->field($model, 'content')->textarea(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_id')->textarea(['maxlength' => true]) ?>
+    <?= $form->field($model, 'status_id')->dropDownList([
+        Post::STATUS_USUAL => 'Обычный пост',
+        Post::STATUS_MEGA => 'Мега пост'
+    ]) ?>
 
     <?= $form->field($model, 'main_picture')->fileInput() ?>
-    <?=Html::img($model->getLinkMainPicture()) ?>
 
     <?php if($model->scenario === Post::SCENARIO_UPDATE):?>
         <?= $form->field($model, 'views',

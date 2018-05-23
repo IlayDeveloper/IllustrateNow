@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\forms\PostForm;
 use app\models\Role;
 use app\models\User;
 use function PHPSTORM_META\type;
@@ -11,6 +12,7 @@ use app\models\search\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * AdminController implements the CRUD actions for Post model.
@@ -70,12 +72,14 @@ class AdminController extends Controller
     public function actionCreate()
     {
         $this->checkAdmin();
-        $model = new Post(['scenario' => Post::SCENARIO_CREATE]);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new PostForm();
+        if(Yii::$app->request->post()){
+            $model->load(Yii::$app->request->post());
+            $model->main_picture = UploadedFile::getInstance($model, 'main_picture');
+            if ($model->validate() && $post = $model->addNewPost()) {
+                return $this->redirect(['view', 'id' => $post->id]);
+            }
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -91,12 +95,16 @@ class AdminController extends Controller
     public function actionUpdate($id)
     {
         $this->checkAdmin();
-        $model = $this->findModel($id);
-        $model->scenario = Post::SCENARIO_UPDATE;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new PostForm();
+        $post = $this->findModel($id);
+        if(Yii::$app->request->post()){
+            $model->load(Yii::$app->request->post());
+            $model->main_picture = UploadedFile::getInstance($model, 'main_picture');
+            if ($model->validate() && $post = $model->updatePost($post)) {
+                return $this->redirect(['view', 'id' => $post->id]);
+            }
         }
+        $model->attributes = $post->getAttributes();
 
         return $this->render('update', [
             'model' => $model,
@@ -134,6 +142,9 @@ class AdminController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * @return bool|\yii\web\Response
+     */
     protected function checkAdmin()
     {
         $user = Yii::$app->user->getIdentity();
