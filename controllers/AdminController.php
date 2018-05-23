@@ -70,7 +70,7 @@ class AdminController extends Controller
     public function actionCreate()
     {
         $this->checkAdmin();
-        $model = new Post();
+        $model = new Post(['scenario' => Post::SCENARIO_CREATE]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,6 +92,7 @@ class AdminController extends Controller
     {
         $this->checkAdmin();
         $model = $this->findModel($id);
+        $model->scenario = Post::SCENARIO_UPDATE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

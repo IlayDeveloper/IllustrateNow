@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use \yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "posts".
@@ -36,12 +37,31 @@ class Post extends ActiveRecord
     const STATUS_MEGA = 1;
     const STATUS_USUAL = 2;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'posts';
+    }
+
+    public function scenarios()
+    {
+        return [
+            static::SCENARIO_CREATE => [
+                'title', 'short_title',
+                'description', 'content',
+                'main_picture', 'status_id'
+            ],
+            static::SCENARIO_UPDATE => [
+                'title', 'short_title',
+                'description', 'content',
+                'main_picture', 'status_id'
+            ]
+        ];
     }
 
     public static function getMegaPost()
@@ -71,10 +91,10 @@ class Post extends ActiveRecord
     {
         return [
             [['title', 'short_title', 'description'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
             [['title', 'content'], 'string', 'max' => 255],
             [['short_title'], 'string', 'max' => 64],
             [['description'], 'string', 'max' => 256],
+            [['main_picture'], 'file', 'extensions' =>  ['png', 'jpg'], 'maxSize' => 10024 *10024],
         ];
     }
 
@@ -90,6 +110,7 @@ class Post extends ActiveRecord
             'description' => 'Описание',
             'content' => 'Контент',
             'main_picture' => 'Главная картинка',
+            'status_id' => 'Статус поста',
             'views' => 'Просмотры',
             'created_at' => 'Создан',
             'updated_at' => 'Обновлен',
@@ -121,13 +142,50 @@ class Post extends ActiveRecord
         return $path;
     }
 
-    public function createThumbnail()
+
+    /**
+     * @param UploadedFile $file
+     * @return bool
+     */
+    public function uploadMainPicture(UploadedFile $file)
+    {
+        if ($this->validate()){
+            $this->main_picture = uniqid() . $file->getExtension();
+            $success = $file->saveAs(static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture);
+            if ($success){
+                $this->createThumbnail($this->main_picture);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return bool
+     */
+    public function changeMainPicture(UploadedFile $file)
+    {
+        if ($this->validate()){
+            $this->main_picture = uniqid() . $file->getExtension();
+            $success = $file->saveAs(static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture);
+            if ($success){
+                $this->createThumbnail($this->main_picture);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function createThumbnail($name)
     {
         $image = new \Zebra_Image();
         $image->auto_handle_exif_orientation = false;
         $image->target_path = static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture;
-        $name = uniqid();
-        $image->target_path = static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $name . 'jpg';
+        $image->target_path = static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $name;
 
         if (!$image->resize(100, 100, ZEBRA_IMAGE_CROP_CENTER)) {
 

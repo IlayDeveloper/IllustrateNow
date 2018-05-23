@@ -29,6 +29,12 @@
 
 /*Стили для интерфейса*/
 
+/*Кастомные кнопки*/
+.custom-button{
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+/*Конец кастомные кнопки*/
 /*!!! Стили для навигационного меню !!!*/
 
 /* цвет фона и рамки навигационного меню */
@@ -124,7 +130,7 @@
 
 /*Поисковик*/
 .mini-search{
-    border: solid #a6e1ec 2px;
+    border: 1px solid #E0E0E0;
     margin-bottom: 2%;
     padding: 1%;
 }

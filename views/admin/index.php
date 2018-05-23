@@ -56,12 +56,12 @@ $this->params['breadcrumbs'][] = "Admin";
             <div class="pull-right"><?= Html::a(FA::icon(FA::_ARROW_RIGHT)->size(FA::SIZE_2X), '/admin/view?id=' . $post->id)?></div>
             <br>
             <br>
-            <div class="pull-right"><?= Html::a('Редактировать', ['update?id=' . $post->id], ['class' => 'btn btn-primary'])?></div>
+            <div class="pull-right"><?= Html::a('Редактировать', ['update?id=' . $post->id], ['class' => 'btn btn-primary custom-button'])?></div>
             <br>
             <br>
             <div class="pull-right">
                 <?=Html::a('Удалить', ['delete', 'id' => $post->id], [
-                    'class' => 'btn btn-danger',
+                    'class' => 'btn btn-danger custom-button',
                     'data' => [
                         'confirm' => 'Вы уверены?! Данный пост будет удален безвозратно!!!',
                         'method' => 'post',
