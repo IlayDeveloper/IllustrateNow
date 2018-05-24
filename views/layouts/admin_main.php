@@ -12,7 +12,7 @@ use app\assets\AppAsset;
 use rmrevin\yii\fontawesome\FA;
 
 AppAsset::register($this);
-$this->registerJsFile();
+//$this->registerJsFile("/js/editor.js");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

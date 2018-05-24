@@ -87,7 +87,6 @@ class PostForm extends Model
             [['short_title'], 'string', 'max' => 64],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 256],
-            [['content'], 'string'],
             [['status_id'], 'integer'],
             [['updated_at', 'created_at'], 'safe'],
             [['main_picture'], 'file', 'extensions' => ['png', 'jpg']],
