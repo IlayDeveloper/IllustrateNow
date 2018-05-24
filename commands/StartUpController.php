@@ -47,9 +47,9 @@ class StartUpController extends Controller
     public function actionIndex()
     {
         $this->faker = (new Factory())->create();
-        $this->generateRoles();
-        $this->generateAdmin();
-//        $this->generatePosts();
+//        $this->generateRoles();
+//        $this->generateAdmin();
+        $this->generatePosts();
     }
 
     public function actionClearing()
@@ -96,6 +96,10 @@ class StartUpController extends Controller
             $post->description = $this->faker->sentence(25);
             $post->content = $this->faker->text(255);
             $post->main_picture = 'example.png';
+            $post->status_id = $this->faker->randomElement([
+                Post::STATUS_MEGA,
+                Post::STATUS_USUAL,
+            ]);
             $post->views = $this->faker->numberBetween(0, 1000);
             $post->save(false);
         }

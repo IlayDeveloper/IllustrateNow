@@ -5,10 +5,10 @@ namespace app\controllers;
 use app\models\forms\PostForm;
 use app\models\Role;
 use app\models\User;
-use function PHPSTORM_META\type;
 use Yii;
 use app\models\Post;
 use app\models\search\PostSearch;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,6 +19,7 @@ use yii\web\UploadedFile;
  */
 class AdminController extends Controller
 {
+    public $layout = 'admin_main';
     /**
      * @inheritdoc
      */
@@ -43,10 +44,12 @@ class AdminController extends Controller
         $this->checkAdmin();
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $pages = $dataProvider->getPagination();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'pages' => $pages
         ]);
     }
 
@@ -73,6 +76,7 @@ class AdminController extends Controller
     {
         $this->checkAdmin();
         $model = new PostForm();
+        $model->scenario = PostForm::SCENARIO_CREATE;
         if(Yii::$app->request->post()){
             $model->load(Yii::$app->request->post());
             $model->main_picture = UploadedFile::getInstance($model, 'main_picture');
@@ -96,6 +100,7 @@ class AdminController extends Controller
     {
         $this->checkAdmin();
         $model = new PostForm();
+        $model->scenario = PostForm::SCENARIO_UPDATE;
         $post = $this->findModel($id);
         if(Yii::$app->request->post()){
             $model->load(Yii::$app->request->post());
@@ -108,6 +113,7 @@ class AdminController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'post' => $post,
         ]);
     }
 

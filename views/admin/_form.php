@@ -5,8 +5,9 @@ use yii\widgets\ActiveForm;
 use \app\models\Post;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Post */
+/* @var $model app\models\forms\PostForm */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $post app\models\Post*/
 ?>
 
 <div class="post-form">
@@ -21,7 +22,7 @@ use \app\models\Post;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['maxlength' => true]) ?>
+    <?= $form->field($model, 'content')->textarea() ?>
 
     <?= $form->field($model, 'status_id')->dropDownList([
         Post::STATUS_USUAL => 'Обычный пост',
@@ -31,6 +32,7 @@ use \app\models\Post;
     <?= $form->field($model, 'main_picture')->fileInput() ?>
 
     <?php if($model->scenario === Post::SCENARIO_UPDATE):?>
+        <?= Html::img($post->getLinkMainThumbnail()) ?>
         <?= $form->field($model, 'views',
             ['inputOptions' => [
                 'disabled' => '',

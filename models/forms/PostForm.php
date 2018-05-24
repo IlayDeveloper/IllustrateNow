@@ -52,18 +52,44 @@ class PostForm extends Model
      */
     public $updated_at;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
+    const THUMBNAIL_HEIGHT = 150;
+    const THUMBNAIL_WIDTH = 270;
+
+    public function scenarios()
+    {
+        return [
+            static::SCENARIO_CREATE => [
+                'title', 'short_title',
+                'description', 'content',
+                'main_picture', 'status_id'
+            ],
+            static::SCENARIO_UPDATE => [
+                'title', 'short_title',
+                'description', 'content',
+                'main_picture', 'status_id',
+                'views', 'updated_at',
+                'created_at',
+            ]
+        ];
+    }
+
     /**
      * @return array the validation rules.
      */
+
     public function rules()
     {
         return [
             [['title', 'short_title', 'description', 'content', 'status_id'], 'required'],
             [['short_title'], 'string', 'max' => 64],
-            [['title', 'content'], 'string', 'max' => 255],
+            [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 256],
             [['content'], 'string'],
             [['status_id'], 'integer'],
+            [['updated_at', 'created_at'], 'safe'],
             [['main_picture'], 'file', 'extensions' => ['png', 'jpg']],
         ];
     }
@@ -106,17 +132,14 @@ class PostForm extends Model
      */
     public function updatePost(Post $post)
     {
-        $oldFileName = $post->main_picture;
         $post->title = $this->title;
         $post->short_title = $this->short_title;
         $post->description = $this->description;
         $post->content = $this->content;
         $post->status_id = $this->status_id;
         $post->scenario = Post::SCENARIO_UPDATE;
-        if ($this->main_picture){
-            $post->main_picture = $this->changeMainPicture($oldFileName);
-        } else{
-            $post->main_picture = $oldFileName;
+        if ($this->main_picture) {
+            $post->main_picture = $this->changeMainPicture($post->main_picture);
         }
         $post->update();
         return $post;
@@ -166,7 +189,7 @@ class PostForm extends Model
         $image->source_path = Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $name;
         $image->target_path = Post::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $name;
 
-        if (!$image->resize(250, 150, ZEBRA_IMAGE_CROP_CENTER)) {
+        if (!$image->resize(static::THUMBNAIL_WIDTH, static::THUMBNAIL_HEIGHT, ZEBRA_IMAGE_CROP_CENTER)) {
 
             // if there was an error, let's see what the error is about
             switch ($image->error) {

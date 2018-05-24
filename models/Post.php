@@ -90,10 +90,11 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'short_title', 'description'], 'required'],
-            [['title', 'content'], 'string', 'max' => 255],
+            [['title', 'short_title', 'description', 'content'], 'required'],
+            [['title', ], 'string', 'max' => 255],
             [['short_title'], 'string', 'max' => 64],
             [['description'], 'string', 'max' => 256],
+            [['content'], 'string'],
         ];
     }
 
