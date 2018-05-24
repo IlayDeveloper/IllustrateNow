@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Role;
+use app\models\User;
+use function PHPSTORM_META\type;
 use Yii;
 use app\models\Post;
 use app\models\search\PostSearch;
@@ -10,9 +13,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PostController implements the CRUD actions for Post model.
+ * AdminController implements the CRUD actions for Post model.
  */
-class PostController extends Controller
+class AdminController extends Controller
 {
     /**
      * @inheritdoc
@@ -35,6 +38,7 @@ class PostController extends Controller
      */
     public function actionIndex()
     {
+        $this->checkAdmin();
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -52,6 +56,7 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
+        $this->checkAdmin();
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -64,8 +69,8 @@ class PostController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Post();
-        $model->scenario = Post::SCENARIO_CREATE;
+        $this->checkAdmin();
+        $model = new Post(['scenario' => Post::SCENARIO_CREATE]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -85,6 +90,7 @@ class PostController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->checkAdmin();
         $model = $this->findModel($id);
         $model->scenario = Post::SCENARIO_UPDATE;
 
@@ -106,6 +112,7 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
+        $this->checkAdmin();
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -125,5 +132,14 @@ class PostController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function checkAdmin()
+    {
+        $user = Yii::$app->user->getIdentity();
+        if (! $user instanceof User || $user->role_id !== Role::ROLE_ADMIN){
+            return $this->goHome();
+        }
+        return true;
     }
 }

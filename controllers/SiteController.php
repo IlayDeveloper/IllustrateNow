@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Post;
+use app\models\search\PostSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +63,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new PostSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $megaPost = Post::getMegaPost();
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'megaPost' => $megaPost,
+        ]);
     }
 
     /**
