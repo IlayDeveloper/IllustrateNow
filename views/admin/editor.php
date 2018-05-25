@@ -1,15 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use \app\models\Post;
+use \app\components\StandartIcons;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
 ?>
-
-
     <div id="editor">
+<!--        Стандартные тэги-->
         <div  class="row editor-row">
             <div class="col-md-6">
                 <?=Html::button('Описание', ['class' => 'tag1 btn btn-success', 'id' =>'desc'])?>
@@ -61,5 +60,14 @@ use \app\models\Post;
             </div>
         </div>
 
+<!--        Стандартные иконки-->
+        <div  class="row editor-row">
+            <hr>
+            <div class="col-md-12">
+                <?php foreach (StandartIcons::ICONS as $key):?>
+                    <?=Html::img( StandartIcons::getLinkIcon($key), ['class'=> 'editor-icons','id' => 'icon-'.$key ])?>
+                <?php endforeach;?>
+            </div>
+        </div>
     </div>
 

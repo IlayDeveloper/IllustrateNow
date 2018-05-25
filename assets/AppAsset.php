@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/mainTheme.css',
         'css/editor.css',
+        'css/post.css',
     ];
     public $js = [
         'js/editor.js',

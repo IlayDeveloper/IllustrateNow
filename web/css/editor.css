@@ -1,48 +1,22 @@
 #editor{
     position: fixed;
-    border: solid 1px darkgrey;
+    border: solid 1px #E0E0E0;
     padding: 25px;
     width: 400px;
-
+    background-color: #fafafa;
 }
 
 .editor-row{
     margin-bottom: 5%;
 }
 
-.post-description{
-    border-right: solid 1px #ff911e;
-    border-left: solid 1px #ff911e;
-    padding-right: 3px;
-    padding-left: 3px;
-    font-weight: bold;
-    font-size: 16px;
+#editor-preview{
+    border: solid 1px #E0E0E0;
+    padding: 1%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
-.fat-border{
-    border-right: solid 8px #ff911e;
-    border-left: solid 8px #ff911e;
-    padding-right: 2%;
-    padding-left: 2%;
-}
-
-.post-underline{
-    text-decoration: underline;
-    font-size: 18px;
-}
-
-.post-under-picture{
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.post-warning{
-    border-top: solid 1px #ff911e;
-    border-bottom: solid 1px #ff911e;
-    padding-top: 2%;
-    padding-bottom: 2%;
-}
-
-.post-title{
-    font-size: 22px;
+.editor-icons{
+    padding: 1%;
 }

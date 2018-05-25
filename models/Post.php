@@ -34,6 +34,7 @@ class Post extends ActiveRecord
                                             DIRECTORY_SEPARATOR . 'posts' .
                                             DIRECTORY_SEPARATOR . 'thumbnails';
 
+
     const STATUS_MEGA = 1;
     const STATUS_USUAL = 2;
 
@@ -142,6 +143,9 @@ class Post extends ActiveRecord
         return $path;
     }
 
+    /**
+     * @return string
+     */
     public function getLinkMainThumbnail()
     {
         $path = DIRECTORY_SEPARATOR . static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $this->main_picture;

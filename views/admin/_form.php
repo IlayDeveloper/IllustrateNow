@@ -9,7 +9,6 @@ use \app\models\Post;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $post app\models\Post*/
 ?>
-
 <div class="post-form">
 
     <?php $form = ActiveForm::begin(
@@ -23,6 +22,10 @@ use \app\models\Post;
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'content')->textarea() ?>
+    <?=Html::button('Предпросмотр', ['class' => 'btn btn-success', 'id' =>'preview-btn'])?>
+    <div id="editor-preview">
+        <?= $model->content?>
+    </div>
 
     <?= $form->field($model, 'status_id')->dropDownList([
         Post::STATUS_USUAL => 'Обычный пост',

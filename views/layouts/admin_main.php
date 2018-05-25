@@ -12,7 +12,7 @@ use app\assets\AppAsset;
 use rmrevin\yii\fontawesome\FA;
 
 AppAsset::register($this);
-//$this->registerJsFile("/js/editor.js");
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -78,7 +78,10 @@ AppAsset::register($this);
                 <?= $content ?>
             </div>
             <div class="col-md-5">
-                <?= $this->render('/admin/editor')?>
+                <?php if(in_array('Редактирование', $this->params['breadcrumbs']) ||
+                            in_array('Ваш новый пост', $this->params['breadcrumbs'])):?>
+                    <?= $this->render('/admin/editor')?>
+                <?php endif ?>
              </div>
         </div>
     </div>

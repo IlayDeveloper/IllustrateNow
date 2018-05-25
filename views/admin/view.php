@@ -11,7 +11,7 @@ $this->title = $model->short_title;
 $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="post-view">
+<div class="post-view-admin">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
