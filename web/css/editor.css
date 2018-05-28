@@ -1,0 +1,23 @@
+#editor{
+    position: fixed;
+    border: solid 1px #E0E0E0;
+    padding: 25px;
+    width: 400px;
+    background-color: #fafafa;
+}
+
+.editor-row{
+    margin-bottom: 5%;
+}
+
+#editor-preview{
+    border: solid 1px #E0E0E0;
+    padding: 1%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: none;
+}
+
+.editor-icons{
+    padding: 1%;
+}

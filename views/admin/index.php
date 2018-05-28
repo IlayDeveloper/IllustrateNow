@@ -3,10 +3,12 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use \rmrevin\yii\fontawesome\FA;
+use yii\widgets\LinkPager;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $post \app\models\Post*/
+/* @var $pages \yii\data\Pagination*/
 
 $this->title = 'Статьи';
 $this->params['breadcrumbs'][] = "Admin";
@@ -31,10 +33,10 @@ $this->params['breadcrumbs'][] = "Admin";
     <?php foreach ($posts as $post):?>
 
     <div class="row post-preview-row">
-        <div class="col-md-4 post-preview-photo">
-        <?= Html::a(Html::img($post->getLinkMainPicture()), '/admin/view?id=' . $post->id);?>
+        <div class="col-md-5 post-preview-photo">
+        <?= Html::a(Html::img($post->getLinkMainThumbnail()), '/admin/view?id=' . $post->id);?>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div>
                 <h3>
                     <div class="post-preview-title">
@@ -63,7 +65,7 @@ $this->params['breadcrumbs'][] = "Admin";
                 <?=Html::a('Удалить', ['delete', 'id' => $post->id], [
                     'class' => 'btn btn-danger custom-button',
                     'data' => [
-                        'confirm' => 'Вы уверены?! Данный пост будет удален безвозратно!!!',
+                        'confirm' => 'Вы уверены?! Данный пост будет удален безвозвратно!!!',
                         'method' => 'post',
                     ],
                 ]) ?>
@@ -72,5 +74,8 @@ $this->params['breadcrumbs'][] = "Admin";
     </div>
 
     <?php endforeach;?>
+    <?=LinkPager::widget([
+        'pagination' => $pages,
+         ]);?>
     <?php Pjax::end(); ?>
 </div>

@@ -5,7 +5,7 @@
 }
 
 .post-preview-photo {
-    padding: 2%;
+    padding: 0%;
 }
 
 .post-preview-title {
@@ -25,6 +25,7 @@
 .post-preview-icon {
     padding-right: 0%;
 }
+
 /*конец карточка поста*/
 
 /*Стили для интерфейса*/

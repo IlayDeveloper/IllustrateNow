@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use \app\models\Post;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -10,7 +11,7 @@ $this->title = $model->short_title;
 $this->params['breadcrumbs'][] = ['label' => 'Admin', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="post-view">
+<div class="post-view-admin">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -37,6 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'main_picture',
                 'format' => 'raw',
                 'value' => Html::img($model->getLinkMainPicture()),
+            ],
+            [
+                'attribute' => 'status_id',
+                'value' => $model->status_id == Post::STATUS_MEGA?'Мега пост':'Обычный пост',
             ],
             'views',
             'created_at',

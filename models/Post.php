@@ -25,14 +25,15 @@ use yii\web\UploadedFile;
  */
 class Post extends ActiveRecord
 {
-    const PICTURE_ROOT_PATH_MAIN = DIRECTORY_SEPARATOR . 'assets' .
+    const PICTURE_ROOT_PATH_MAIN = 'assets' .
                                     DIRECTORY_SEPARATOR . 'pictures' .
                                     DIRECTORY_SEPARATOR . 'posts' .
                                     DIRECTORY_SEPARATOR . 'main';
-    const PICTURE_ROOT_PATH_THUMBNAILS = DIRECTORY_SEPARATOR . 'assets' .
+    const PICTURE_ROOT_PATH_THUMBNAILS = 'assets' .
                                             DIRECTORY_SEPARATOR . 'pictures' .
                                             DIRECTORY_SEPARATOR . 'posts' .
                                             DIRECTORY_SEPARATOR . 'thumbnails';
+
 
     const STATUS_MEGA = 1;
     const STATUS_USUAL = 2;
@@ -90,11 +91,11 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'short_title', 'description'], 'required'],
-            [['title', 'content'], 'string', 'max' => 255],
+            [['title', 'short_title', 'description', 'content'], 'required'],
+            [['title', ], 'string', 'max' => 255],
             [['short_title'], 'string', 'max' => 64],
             [['description'], 'string', 'max' => 256],
-            [['main_picture'], 'file', 'extensions' =>  ['png', 'jpg'], 'maxSize' => 10024 *10024],
+            [['content'], 'string'],
         ];
     }
 
@@ -128,6 +129,14 @@ class Post extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPictures()
+    {
+        return $this->hasMany(PostPicture::class, ['post_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPostStatus()
     {
         return $this->hasOne(PostStatus::class, ['status_id' => 'id']);
@@ -138,89 +147,45 @@ class Post extends ActiveRecord
      */
     public function getLinkMainPicture()
     {
-        $path = static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture;
+        $path = DIRECTORY_SEPARATOR .
+            static::PICTURE_ROOT_PATH_MAIN .
+            DIRECTORY_SEPARATOR .
+            substr($this->main_picture, 0, -4) .
+            DIRECTORY_SEPARATOR .
+            $this->main_picture;
         return $path;
     }
 
+    /**
+     * @return string
+     */
+    public function getLinkMainThumbnail()
+    {
+        $path = DIRECTORY_SEPARATOR . static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $this->main_picture;
+        return $path;
+    }
 
     /**
-     * @param UploadedFile $file
      * @return bool
      */
-    public function uploadMainPicture(UploadedFile $file)
+    public function deleteAllPicture()
     {
-        if ($this->validate()){
-            $this->main_picture = uniqid() . $file->getExtension();
-            $success = $file->saveAs(static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture);
-            if ($success){
-                $this->createThumbnail($this->main_picture);
-                return true;
+        $directory = substr($this->main_picture, 0, -4);
+        $path = static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $directory;
+        $files = scandir($path);
+
+        foreach ($files as $file){
+            if( is_file($path . DIRECTORY_SEPARATOR . $file) ){
+                unlink($path . DIRECTORY_SEPARATOR . $file);
             }
+        }
+
+        if( rmdir($path) &&
+            unlink(static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $this->main_picture)
+        ){
+            return true;
         }
         return false;
     }
 
-    /**
-     * @param UploadedFile $file
-     * @return bool
-     */
-    public function changeMainPicture(UploadedFile $file)
-    {
-        if ($this->validate()){
-            $this->main_picture = uniqid() . $file->getExtension();
-            $success = $file->saveAs(static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture);
-            if ($success){
-                $this->createThumbnail($this->main_picture);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function createThumbnail($name)
-    {
-        $image = new \Zebra_Image();
-        $image->auto_handle_exif_orientation = false;
-        $image->target_path = static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture;
-        $image->target_path = static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $name;
-
-        if (!$image->resize(100, 100, ZEBRA_IMAGE_CROP_CENTER)) {
-
-            // if there was an error, let's see what the error is about
-            switch ($image->error) {
-
-                case 1:
-                    echo 'Source file could not be found!';
-                    break;
-                case 2:
-                    echo 'Source file is not readable!';
-                    break;
-                case 3:
-                    echo 'Could not write target file!';
-                    break;
-                case 4:
-                    echo 'Unsupported source file format!';
-                    break;
-                case 5:
-                    echo 'Unsupported target file format!';
-                    break;
-                case 6:
-                    echo 'GD library version does not support target file format!';
-                    break;
-                case 7:
-                    echo 'GD library is not installed!';
-                    break;
-                case 8:
-                    echo '"chmod" command is disabled via configuration!';
-                    break;
-                case 9:
-                    echo '"exif_read_data" function is not available';
-                    break;
-
-            }
-        }
-    }
 }

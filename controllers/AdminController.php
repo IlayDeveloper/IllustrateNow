@@ -2,21 +2,25 @@
 
 namespace app\controllers;
 
+use app\models\forms\PostForm;
+use app\models\PostPicture;
 use app\models\Role;
 use app\models\User;
-use function PHPSTORM_META\type;
 use Yii;
 use app\models\Post;
 use app\models\search\PostSearch;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * AdminController implements the CRUD actions for Post model.
  */
 class AdminController extends Controller
 {
+    public $layout = 'admin_main';
     /**
      * @inheritdoc
      */
@@ -41,10 +45,12 @@ class AdminController extends Controller
         $this->checkAdmin();
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $pages = $dataProvider->getPagination();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'pages' => $pages
         ]);
     }
 
@@ -70,12 +76,15 @@ class AdminController extends Controller
     public function actionCreate()
     {
         $this->checkAdmin();
-        $model = new Post(['scenario' => Post::SCENARIO_CREATE]);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new PostForm();
+        $model->scenario = PostForm::SCENARIO_CREATE;
+        if(Yii::$app->request->post()){
+            $model->load(Yii::$app->request->post());
+            $model->main_picture = UploadedFile::getInstance($model, 'main_picture');
+            if ($model->validate() && $post = $model->addNewPost()) {
+                return $this->redirect(['view', 'id' => $post->id]);
+            }
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -91,15 +100,21 @@ class AdminController extends Controller
     public function actionUpdate($id)
     {
         $this->checkAdmin();
-        $model = $this->findModel($id);
-        $model->scenario = Post::SCENARIO_UPDATE;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new PostForm();
+        $model->scenario = PostForm::SCENARIO_UPDATE;
+        $post = $this->findModel($id);
+        if(Yii::$app->request->post()){
+            $model->load(Yii::$app->request->post());
+            $model->main_picture = UploadedFile::getInstance($model, 'main_picture');
+            if ($model->validate() && $post = $model->updatePost($post)) {
+                return $this->redirect(['view', 'id' => $post->id]);
+            }
         }
+        $model->attributes = $post->getAttributes();
 
         return $this->render('update', [
             'model' => $model,
+            'post' => $post,
         ]);
     }
 
@@ -113,7 +128,9 @@ class AdminController extends Controller
     public function actionDelete($id)
     {
         $this->checkAdmin();
-        $this->findModel($id)->delete();
+        $post = $this->findModel($id);
+        $post->deleteAllPicture();
+        $post->delete();
 
         return $this->redirect(['index']);
     }
@@ -134,6 +151,9 @@ class AdminController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * @return bool|\yii\web\Response
+     */
     protected function checkAdmin()
     {
         $user = Yii::$app->user->getIdentity();
@@ -141,5 +161,35 @@ class AdminController extends Controller
             return $this->goHome();
         }
         return true;
+    }
+
+    public function actionUploadpictures()
+    {
+        if (Yii::$app->request->getIsAjax()){
+            $this->checkAdmin();
+
+            $post_id = Yii::$app->request->post('id');
+            $pictures = UploadedFile::getInstancesByName('pictures');
+
+            $postPicture = new PostPicture();
+            $response = $postPicture->uploadPictures($pictures, $post_id);
+            return json_encode($response);
+        }
+        return $this->goHome();
+    }
+
+    public function actionDeletepictures()
+    {
+        if (Yii::$app->request->getIsAjax()){
+            $this->checkAdmin();
+
+            $id = Yii::$app->request->post('id');
+            $postPicture = PostPicture::findOne(['id' => $id]);
+
+            if ($postPicture->deletePicture()){
+                return true;
+            }
+        }
+        return $this->goHome();
     }
 }

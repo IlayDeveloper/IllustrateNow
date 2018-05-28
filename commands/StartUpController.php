@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\models\Post;
+use app\models\PostStatus;
 use app\models\Role;
 use app\models\User;
 use Faker\Factory;
@@ -36,6 +37,11 @@ class StartUpController extends Controller
         '2' => 'user',
     ];
 
+    public $statusPost = [
+        '1' => 'mega',
+        '2' => 'usual',
+    ];
+
     /**
      * @var Generator
      */
@@ -47,17 +53,20 @@ class StartUpController extends Controller
     public function actionIndex()
     {
         $this->faker = (new Factory())->create();
-        $this->generateRoles();
-        $this->generateAdmin();
+//        $this->generateRoles();
+//        $this->generateAdmin();
+        $this->generateStatusPost();
 //        $this->generatePosts();
     }
 
     public function actionClearing()
     {
-        User::deleteAll();
+//        User::deleteAll();
         Role::deleteAll();
-        Yii::$app->db->createCommand('ALTER TABLE `users` AUTO_INCREMENT = 1')->execute();
+        Post::deleteAll();
+//        Yii::$app->db->createCommand('ALTER TABLE `users` AUTO_INCREMENT = 1')->execute();
         Yii::$app->db->createCommand('ALTER TABLE `roles` AUTO_INCREMENT = 1')->execute();
+        Yii::$app->db->createCommand('ALTER TABLE `posts` AUTO_INCREMENT = 1')->execute();
     }
 
     private function generateAdmin()
@@ -94,6 +103,10 @@ class StartUpController extends Controller
             $post->description = $this->faker->sentence(25);
             $post->content = $this->faker->text(255);
             $post->main_picture = 'example.png';
+            $post->status_id = $this->faker->randomElement([
+                Post::STATUS_MEGA,
+                Post::STATUS_USUAL,
+            ]);
             $post->views = $this->faker->numberBetween(0, 1000);
             $post->save(false);
         }
@@ -102,5 +115,15 @@ class StartUpController extends Controller
     private function generateTags()
     {
         //
+    }
+
+    private function generateStatusPost()
+    {
+        foreach ($this->statusPost as $key){
+            $postStatus = new PostStatus();
+            $postStatus->name = $key;
+            $postStatus->description = '';
+            $postStatus->save();
+        }
     }
 }
