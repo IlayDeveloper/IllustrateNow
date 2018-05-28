@@ -1,6 +1,5 @@
 .post-view{
     font-size: 18px;
-    /*text-indent: 2em;*/
 }
 .post-description{
     border-right: solid 1px #ff911e;
@@ -45,6 +44,12 @@
 }
 .post-title{
     font-size: 22px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+}
+
+.post-icons{
+    padding: 1%;
 }
 
 .post-pictures{
@@ -52,20 +57,19 @@
     margin-bottom: 2%;
     width: 150px;
     margin-right: 1%;
-    /*padding-left: 0%;*/
-    /*padding-right: 0%;*/
 }
 
 .post-pictures-focus {
     border: solid 2px #000ae0;
     background-color: rgba(0, 0, 0, 0.16);
     margin-bottom: 2%;
-    /*padding-left: 0%;*/
-    /*padding-right: 0%;*/
 }
 
 .post-pictures-in-post{
-
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2%;
+    margin-bottom: 1%;
 }
 
 .post-main-picture{
@@ -83,12 +87,25 @@
     background-color: rgba(0,0,0,0.68);
 }
 
+@media screen and (max-device-width: 768px) {
+    .post-main-picture h1{
+        font-size: 18px;
+        top:100%;
+        left: 0%;
+        background-color: rgba(255, 125, 21, 0.73);
+    }
+
+    .post-main-picture {
+        margin-bottom: 80px;
+    }
+}
+
 .post-text-tag{
     background-color: #ff911e;
     color: #ffffff;
     border-radius: 5px;
-    padding-right: 1%;
-    padding-left: 1%;
+    padding-right: 3px;
+    padding-left: 3px;
 }
 
 .post-main-content{
@@ -99,7 +116,10 @@
 .post-table{
     padding-left: 2%;
     padding-right: 2%;
+    margin-left: 4%;
+    margin-right: 4%;
     margin-top: 1%;
+    font-size: 20px;
 }
 
 .post-table-title{
@@ -108,4 +128,10 @@
 }
 .post-table-usual{
     border-bottom: solid #ff911e 1px;
+    text-align: center;
+}
+
+
+.post-text-indent{
+    text-indent: 1em;
 }

@@ -34,7 +34,7 @@ use \app\models\forms\PostForm;
 
     <hr>
     <?php if($model->scenario == PostForm::SCENARIO_UPDATE):?>
-        <?= $form->field($model, 'pictures')->fileInput(['multiple' => true]) ?>
+        <?= $form->field($model, 'pictures')->fileInput() ?>
         <div class="form-pictures">
             <?php $pictures = $post->getPictures()->all();
             foreach ($pictures as $p):?>

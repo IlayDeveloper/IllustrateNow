@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="post-view">
     <div class ="post-main-picture">
         <?= Html::img($model->getLinkMainPicture(), ['class' => 'img-responsive'])?>
-        <h1><?= Html::encode($this->title) ?></h1>
+        <h1><?=$this->title ?></h1>
     </div>
     <div class="post-main-content">
         <?= $model->content ?>
