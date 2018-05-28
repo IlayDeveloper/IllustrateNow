@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\models\Post;
+use app\models\PostStatus;
 use app\models\Role;
 use app\models\User;
 use Faker\Factory;
@@ -36,6 +37,11 @@ class StartUpController extends Controller
         '2' => 'user',
     ];
 
+    public $statusPost = [
+        '1' => 'mega',
+        '2' => 'usual',
+    ];
+
     /**
      * @var Generator
      */
@@ -49,7 +55,8 @@ class StartUpController extends Controller
         $this->faker = (new Factory())->create();
 //        $this->generateRoles();
 //        $this->generateAdmin();
-        $this->generatePosts();
+        $this->generateStatusPost();
+//        $this->generatePosts();
     }
 
     public function actionClearing()
@@ -108,5 +115,15 @@ class StartUpController extends Controller
     private function generateTags()
     {
         //
+    }
+
+    private function generateStatusPost()
+    {
+        foreach ($this->statusPost as $key){
+            $postStatus = new PostStatus();
+            $postStatus->name = $key;
+            $postStatus->description = '';
+            $postStatus->save();
+        }
     }
 }

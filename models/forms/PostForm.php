@@ -3,6 +3,7 @@
 namespace app\models\forms;
 
 use app\models\Post;
+use app\models\PostPicture;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
@@ -31,6 +32,10 @@ class PostForm extends Model
      * @var string
      */
     public $content;
+    /**
+     * @var UploadedFile[]
+     */
+    public $pictures;
     /**
      * @var UploadedFile
      */
@@ -87,9 +92,11 @@ class PostForm extends Model
             [['short_title'], 'string', 'max' => 64],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 256],
-            [['status_id'], 'integer'],
+            [['status_id' ,'id'], 'integer'],
             [['updated_at', 'created_at'], 'safe'],
             [['main_picture'], 'file', 'extensions' => ['png', 'jpg']],
+            [['main_picture'], 'required', 'on' => static::SCENARIO_CREATE],
+            [['pictures'], 'file', 'extensions' => ['png', 'jpg'], 'maxFiles' => 25],
         ];
     }
 
@@ -103,6 +110,7 @@ class PostForm extends Model
             'short_title' => 'Короткий заголовок',
             'description' => 'Описание',
             'content' => 'Контент',
+            'pictures' => 'Картинки',
             'main_picture' => 'Главная картинка',
             'status_id' => 'Статус поста',
             'views' => 'Просмотры',
@@ -116,9 +124,11 @@ class PostForm extends Model
      */
     public function addNewPost()
     {
-        $post = new Post($this->getAttributes());
+        $post = new Post($this->getAttributes(null, ['pictures']));
         $post->scenario = Post::SCENARIO_CREATE;
-        $post->main_picture = $this->uploadMainPicture();
+        if ($this->main_picture) {
+            $post->main_picture = $this->uploadMainPicture();
+        }
         if($post->save()){
             return $post;
         }
@@ -151,11 +161,20 @@ class PostForm extends Model
      */
     public function uploadMainPicture()
     {
-        $fileName = uniqid() .  '.' . $this->main_picture->getExtension();
-        $success = $this->main_picture->saveAs(Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $fileName);
-        if ($success){
-            $this->createThumbnail($fileName);
-            return $fileName;
+        $directoryName = uniqid();
+        if( mkdir(Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $directoryName) ){
+            $fileName = $directoryName .  '.' . $this->main_picture->getExtension();
+            $success = $this->main_picture->saveAs(
+                Post::PICTURE_ROOT_PATH_MAIN .
+                DIRECTORY_SEPARATOR .
+                $directoryName .
+                DIRECTORY_SEPARATOR .
+                $fileName
+            );
+            if ($success){
+                $this->createThumbnail($fileName);
+                return $fileName;
+            }
         }
         return false;
     }
@@ -166,11 +185,22 @@ class PostForm extends Model
      */
     public function changeMainPicture($oldFileName)
     {
-        unlink(Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $oldFileName);
+        unlink(
+            Post::PICTURE_ROOT_PATH_MAIN .
+            DIRECTORY_SEPARATOR .
+            substr($oldFileName, 0, -4) .
+            DIRECTORY_SEPARATOR .
+            $oldFileName);
         unlink(Post::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $oldFileName);
 
-        $fileName = uniqid() .  '.' . $this->main_picture->getExtension();
-        $success = $this->main_picture->saveAs(Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $fileName);
+        $fileName = substr($oldFileName, 0, -4) .  '.' . $this->main_picture->getExtension();
+        $success = $this->main_picture->saveAs(
+            Post::PICTURE_ROOT_PATH_MAIN .
+            DIRECTORY_SEPARATOR .
+            substr($oldFileName, 0, -4) .
+            DIRECTORY_SEPARATOR .
+            $fileName
+        );
         if ($success){
             $this->createThumbnail($fileName);
             return $fileName;
@@ -185,7 +215,10 @@ class PostForm extends Model
     {
         $image = new \Zebra_Image();
         $image->auto_handle_exif_orientation = false;
-        $image->source_path = Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $name;
+        $image->source_path = Post::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR .
+            substr($name, 0, -4) .
+            DIRECTORY_SEPARATOR .
+            $name;
         $image->target_path = Post::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $name;
 
         if (!$image->resize(static::THUMBNAIL_WIDTH, static::THUMBNAIL_HEIGHT, ZEBRA_IMAGE_CROP_CENTER)) {

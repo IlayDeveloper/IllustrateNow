@@ -1,3 +1,7 @@
+.post-view{
+    font-size: 18px;
+    /*text-indent: 2em;*/
+}
 .post-description{
     border-right: solid 1px #ff911e;
     border-left: solid 1px #ff911e;
@@ -12,6 +16,11 @@
     border-left: solid 8px #ff911e;
     padding-right: 2%;
     padding-left: 2%;
+}
+
+.post-desc-picture{
+    font-size: 12px;
+    font-style: italic;
 }
 
 .post-underline{
@@ -38,6 +47,27 @@
     font-size: 22px;
 }
 
+.post-pictures{
+    border: solid 1px #E0E0E0;
+    margin-bottom: 2%;
+    width: 150px;
+    margin-right: 1%;
+    /*padding-left: 0%;*/
+    /*padding-right: 0%;*/
+}
+
+.post-pictures-focus {
+    border: solid 2px #000ae0;
+    background-color: rgba(0, 0, 0, 0.16);
+    margin-bottom: 2%;
+    /*padding-left: 0%;*/
+    /*padding-right: 0%;*/
+}
+
+.post-pictures-in-post{
+
+}
+
 .post-main-picture{
     position: relative;
     display: inline-block;
@@ -53,7 +83,29 @@
     background-color: rgba(0,0,0,0.68);
 }
 
+.post-text-tag{
+    background-color: #ff911e;
+    color: #ffffff;
+    border-radius: 5px;
+    padding-right: 1%;
+    padding-left: 1%;
+}
+
 .post-main-content{
     padding-left: 2%;
     padding-right: 2%;
+}
+
+.post-table{
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-top: 1%;
+}
+
+.post-table-title{
+    background-color: #ff911e;
+    height: 24px;
+}
+.post-table-usual{
+    border-bottom: solid #ff911e 1px;
 }

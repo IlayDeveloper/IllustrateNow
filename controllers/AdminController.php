@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\forms\PostForm;
+use app\models\PostPicture;
 use app\models\Role;
 use app\models\User;
 use Yii;
@@ -127,7 +128,9 @@ class AdminController extends Controller
     public function actionDelete($id)
     {
         $this->checkAdmin();
-        $this->findModel($id)->delete();
+        $post = $this->findModel($id);
+        $post->deleteAllPicture();
+        $post->delete();
 
         return $this->redirect(['index']);
     }
@@ -158,5 +161,35 @@ class AdminController extends Controller
             return $this->goHome();
         }
         return true;
+    }
+
+    public function actionUploadpictures()
+    {
+        if (Yii::$app->request->getIsAjax()){
+            $this->checkAdmin();
+
+            $post_id = Yii::$app->request->post('id');
+            $pictures = UploadedFile::getInstancesByName('pictures');
+
+            $postPicture = new PostPicture();
+            $response = $postPicture->uploadPictures($pictures, $post_id);
+            return json_encode($response);
+        }
+        return $this->goHome();
+    }
+
+    public function actionDeletepictures()
+    {
+        if (Yii::$app->request->getIsAjax()){
+            $this->checkAdmin();
+
+            $id = Yii::$app->request->post('id');
+            $postPicture = PostPicture::findOne(['id' => $id]);
+
+            if ($postPicture->deletePicture()){
+                return true;
+            }
+        }
+        return $this->goHome();
     }
 }

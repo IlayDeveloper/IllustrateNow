@@ -11,7 +11,7 @@ use \app\components\StandartIcons;
 <!--        Стандартные тэги-->
         <div  class="row editor-row">
             <div class="col-md-6">
-                <?=Html::button('Описание', ['class' => 'tag1 btn btn-success', 'id' =>'desc'])?>
+                <?=Html::button('Описание', ['class' => 'btn btn-success', 'id' =>'desc'])?>
             </div>
              <div class="col-md-6 post-description text-center">
                  <div class="fat-border">
@@ -22,9 +22,8 @@ use \app\components\StandartIcons;
 
         <div  class="row editor-row">
             <div class="col-md-6">
-                <?=Html::button('Под картинкой', ['class' => 'tag1 btn btn-success', 'id' =>'und-picture'])?>
+                <?=Html::button('Под картинкой', ['class' => 'btn btn-success', 'id' =>'und-picture'])?>
             </div>
-
             <div class="col-md-6 post-under-picture text-center">
                 Пример пример
             </div>
@@ -32,9 +31,8 @@ use \app\components\StandartIcons;
 
         <div  class="row editor-row">
             <div class="col-md-6">
-                <?=Html::button('Подчеркнутый', ['class' => 'tag1 btn btn-success'])?>
+                <?=Html::button('Подчеркнутый', ['class' => 'btn btn-success', 'id' => 'underline'])?>
             </div>
-
             <div class="col-md-6 post-underline text-center">
                 Пример пример
             </div>
@@ -42,9 +40,8 @@ use \app\components\StandartIcons;
 
         <div  class="row editor-row">
             <div class="col-md-6">
-                <?=Html::button('Внимание', ['class' => 'tag1 btn btn-success'])?>
+                <?=Html::button('Внимание', ['class' => 'btn btn-success', 'id' => 'warning'])?>
             </div>
-
             <div class="col-md-6 post-warning text-center">
                 Пример пример
             </div>
@@ -52,11 +49,55 @@ use \app\components\StandartIcons;
 
         <div  class="row editor-row">
             <div class="col-md-5">
-                <?=Html::button('Заголовок', ['class' => 'tag1 btn btn-success'])?>
+                <?=Html::button('Заголовок', ['class' => 'btn btn-success', 'id' => 'title'])?>
             </div>
-
             <div class="col-md-7 post-title text-center">
                 Пример пример
+            </div>
+        </div>
+
+        <div  class="row editor-row">
+            <div class="col-md-5">
+                <?=Html::button('Описание карт.', ['class' => 'btn btn-success', 'id' => 'desc-picture'])?>
+            </div>
+            <div class="col-md-7 post-desc-picture text-center">
+                Пример пример
+            </div>
+        </div>
+
+        <div  class="row editor-row">
+            <div class="col-md-5">
+                <?=Html::button('Текстовые тэги', ['class' => 'btn btn-success', 'id' => 'text-tag'])?>
+            </div>
+            <span class="col-md-7 post-text-tag text-center">
+                Пример пример
+            </span>
+        </div>
+
+        <div  class="row editor-row">
+            <div class="col-md-12">
+                <?=Html::button('Таблица', ['class' => 'btn btn-success', 'id' => 'table'])?>
+            </div>
+
+            <div class="post-table">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row post-table-title"></div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <div class="row post-table-title"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row post-table-usual">Пример строки</div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <div class="row post-table-usual">Пример строки</div>
+                    </div>
+                </div>
             </div>
         </div>
 

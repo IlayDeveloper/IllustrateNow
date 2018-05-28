@@ -74,10 +74,10 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <?= $content ?>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <?php if(in_array('Редактирование', $this->params['breadcrumbs']) ||
                             in_array('Ваш новый пост', $this->params['breadcrumbs'])):?>
                     <?= $this->render('/admin/editor')?>

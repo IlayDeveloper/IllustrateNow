@@ -129,6 +129,14 @@ class Post extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPictures()
+    {
+        return $this->hasMany(PostPicture::class, ['post_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPostStatus()
     {
         return $this->hasOne(PostStatus::class, ['status_id' => 'id']);
@@ -139,7 +147,12 @@ class Post extends ActiveRecord
      */
     public function getLinkMainPicture()
     {
-        $path = DIRECTORY_SEPARATOR . static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $this->main_picture;
+        $path = DIRECTORY_SEPARATOR .
+            static::PICTURE_ROOT_PATH_MAIN .
+            DIRECTORY_SEPARATOR .
+            substr($this->main_picture, 0, -4) .
+            DIRECTORY_SEPARATOR .
+            $this->main_picture;
         return $path;
     }
 
@@ -150,6 +163,29 @@ class Post extends ActiveRecord
     {
         $path = DIRECTORY_SEPARATOR . static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $this->main_picture;
         return $path;
+    }
+
+    /**
+     * @return bool
+     */
+    public function deleteAllPicture()
+    {
+        $directory = substr($this->main_picture, 0, -4);
+        $path = static::PICTURE_ROOT_PATH_MAIN . DIRECTORY_SEPARATOR . $directory;
+        $files = scandir($path);
+
+        foreach ($files as $file){
+            if( is_file($path . DIRECTORY_SEPARATOR . $file) ){
+                unlink($path . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        if( rmdir($path) &&
+            unlink(static::PICTURE_ROOT_PATH_THUMBNAILS . DIRECTORY_SEPARATOR . $this->main_picture)
+        ){
+            return true;
+        }
+        return false;
     }
 
 }
