@@ -55,8 +55,8 @@ class StartUpController extends Controller
         $this->faker = (new Factory())->create();
 //        $this->generateRoles();
 //        $this->generateAdmin();
-        $this->generateStatusPost();
-//        $this->generatePosts();
+//        $this->generateStatusPost();
+        $this->generatePosts();
     }
 
     public function actionClearing()

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use \app\models\Post;
 use \app\models\forms\PostForm;
+use \rmrevin\yii\fontawesome\FA;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\forms\PostForm */
@@ -26,7 +27,12 @@ use \app\models\forms\PostForm;
 
     <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'content')->textarea() ?>
+    <?= $form->field($model, 'content')->textarea(['class' => 'hidden']) ?>
+    <div id="codeEditor" class="codeEditor">
+
+    </div>
+    <?=Html::button(FA::icon(FA::_EXPAND), ['class' => 'btn btn-info', 'id' =>'btn-toggle'])?>
+
     <?=Html::button('Предпросмотр', ['class' => 'btn btn-success', 'id' =>'preview-btn'])?>
     <div id="editor-preview" class="post-view">
         <?= $model->content?>

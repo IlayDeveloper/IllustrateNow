@@ -3,6 +3,55 @@
     var preview = $("#editor-preview");
     var icons = $(".editor-icons");
 
+    /*Запуск редактора*/
+    if ($("#codeEditor")[0]){
+        var editor = ace.edit("codeEditor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/html");
+        editor.setOption("maxLines", 25);
+        editor.setValue(content.val());
+        editor.commands.addCommand({
+            name: 'ExitFullMode',
+            bindKey: {win: 'Esc',  mac: 'Command-M'},
+            exec: function(editor) {
+                var edit =  $("#codeEditor");
+                edit.detach();
+                edit.insertAfter($(".field-postform-content"));
+                edit.removeClass("codeEditor-full");
+                edit.addClass("codeEditor");
+                edit.css({
+                    'position' : 'relative',
+                    'font-size' : '16px',
+                });
+                editor.setOption("maxLines", 25);
+                editor.resize();
+            },
+            readOnly: true // false if this command should not apply in readOnly mode
+        });
+
+        document.getElementById('codeEditor').style.fontSize='12px';
+        editor.session.on('change', function(delta) {
+            content.val (editor.getValue());
+            previewUpdate ();
+        });
+        $("#btn-toggle").click(function(){
+            var edit =  $("#codeEditor");
+            edit.detach();
+            edit.prependTo("body");
+            edit.removeClass("codeEditor");
+            edit.addClass("codeEditor-full");
+            edit.css({
+                'position' : 'absolute',
+                'font-size' : '16px',
+            });
+            editor.setOption("maxLines", 500);
+            editor.resize();
+        });
+    }
+
+
+    /* * * * */
+
     /*Список тэгов для форматирования текста*/
     var tag_description = '<div class="post-description "> <div class="fat-border"> Пример пример</div> </div>';
     var tag_under_picture = '<div class="post-under-picture text-center">Пример пример</div>';
@@ -52,8 +101,7 @@
     }
 
     function contentAdd(value) {
-        content.val (content.val() + value);
-        previewUpdate ();
+        editor.insert(value);
     }
 
 /*Обработка загрузки изображений*/
