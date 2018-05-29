@@ -18,16 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(); ?>
 <!--    --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<!--    <p>-->
-<!--        <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>-->
-<!--    </p>-->
 
     <?php $posts = $dataProvider->getModels();?>
     <?php foreach ($posts as $post):?>
 
     <div class="row post-preview-row">
         <div class="col-md-5 post-preview-photo">
-        <?= Html::a(Html::img($post->getLinkMainPicture()), 'post/view?id=' . $post->id);?>
+        <?= Html::a(Html::img($post->getLinkMainThumbnail()), 'post/view?id=' . $post->id);?>
         </div>
         <div class="col-md-6">
             <div>

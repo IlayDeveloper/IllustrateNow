@@ -99,6 +99,15 @@ use \app\components\StandartIcons;
                     </div>
                 </div>
             </div>
+            <br>
+            <div  class="row editor-row">
+                <div class="col-md-2">
+                    <?=Html::button('Примечание', ['class' => 'btn btn-success', 'id' => 'note'])?>
+                </div>
+                <div class="col-md-10">
+                    <div class="row"> <div class="col-md-6 text-right"><img id="icon-warning" class="post-icons" src="/assets/pictures/interface/icons/warning.png" alt=""></div> <div class="post-desc-picture text-left col-md-6">текст 1 <br> Текст 2<br> Текст 3 </div> </div>
+                </div>
+            </div>
         </div>
 
 <!--        Стандартные иконки-->

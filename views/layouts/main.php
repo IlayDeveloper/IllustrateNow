@@ -44,18 +44,6 @@ AppAsset::register($this);
             ['label' => 'ТЕСТЫ', 'url' => ['#']],
             ['label' => 'ТОП 10', 'url' => ['#']],
             ['label' => 'ФРИЛАНС', 'url' => ['#']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->login . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            ),
              '<form class="navbar-form navbar-left" role="search">
                  <div class="form-group">
                     <input type="text" class="form-control" placeholder="Поиск">
@@ -87,11 +75,6 @@ AppAsset::register($this);
     <div class="container content">
         <div class="row">
             <div class="col-md-6">
-                <div class="footer-tags">
-                    tags tags tags <br>
-                    tags tags tags <br>
-                    tags tags tags <br>
-                </div>
                 <div class="footer-society">
                     <div class="row">
                         <div class="col-md-5"><?=Html::a(Yii::$app->name . '.ru', '/')?></div>
@@ -101,9 +84,14 @@ AppAsset::register($this);
                         <div class="col-md-4"></div>
                     </div>
                 </div>
+<!--                <div class="footer-tags">-->
+<!--                    tags tags tags <br>-->
+<!--                    tags tags tags <br>-->
+<!--                    tags tags tags <br>-->
+<!--                </div>-->
             </div>
             <div class="col-md-6">
-                <div>&copy; Vorona <?= date('Y') ?></div>
+                <div>&copy; IllustrateNow <?= date('Y') ?></div>
                 <div>Копирование материалов запрещено</div>
             </div>
         </div>

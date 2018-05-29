@@ -24,8 +24,10 @@ class AppAsset extends AssetBundle
         'css/mainTheme.css',
         'css/editor.css',
         'css/post.css',
+        'css/face.css',
     ];
     public $js = [
+        'https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js',
         'js/editor.js',
     ];
     public $depends = [

@@ -60,8 +60,8 @@ class PostForm extends Model
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
 
-    const THUMBNAIL_HEIGHT = 150;
-    const THUMBNAIL_WIDTH = 270;
+    const THUMBNAIL_HEIGHT = 200;
+    const THUMBNAIL_WIDTH = 290;
 
     public function scenarios()
     {

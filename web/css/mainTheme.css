@@ -2,6 +2,8 @@
 .post-preview-row {
     border: 1px solid #E0E0E0;
     margin-bottom: 4%;
+    margin-left: 0%;
+    margin-right: 0%;
 }
 
 .post-preview-photo {
@@ -103,17 +105,18 @@
 /* CSS стили для мобильных устройств */
 /* Цвет рамки у кнопки, которая открывает меню */
 .navbar-default .navbar-toggle {
-    border-color: #27ae60;
+    border-color: #ffffff;
 }
 /* Цвет фона кнопки (которая открывает меню) при поднесении к ней курсора мышки или при нахождении её в фокусе */
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #27ae60;
+    background-color: rgb(215, 90, 22);
 }
 /* Цвет полосочек в кнопочке, которая открывает меню */
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #ecf0f1;
 }
+
 /* Цвет пунктов меню в раскрывающихся списках */
 @media (max-width: 767px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
@@ -123,7 +126,7 @@
     .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
     .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
         color: #d1ffed;
-        background-color: #27ae60;
+        background-color: #ff7d15;
     }
 }
 

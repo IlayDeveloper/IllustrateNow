@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = "Admin";
 <div class="post-index">
 
     <h1>Админка для Викульки</h1>
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin(['timeout' => 5000 ]); ?>
     <br>
     <p>
         <?= Html::a('СОЗДАТЬ НОВЫЙ ПОСТ', ['create'], ['class' => 'btn-lg btn-success']) ?>
@@ -76,6 +76,6 @@ $this->params['breadcrumbs'][] = "Admin";
     <?php endforeach;?>
     <?=LinkPager::widget([
         'pagination' => $pages,
-         ]);?>
+     ]);?>
     <?php Pjax::end(); ?>
 </div>

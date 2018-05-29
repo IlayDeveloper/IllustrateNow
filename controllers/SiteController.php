@@ -66,11 +66,13 @@ class SiteController extends Controller
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $megaPost = Post::getMegaPost();
+        $pages = $dataProvider->getPagination();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'megaPost' => $megaPost,
+            'pages' => $pages,
         ]);
     }
 
