@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\forms\PostForm;
 use app\models\PostPicture;
+use app\models\PostTags;
 use app\models\Role;
 use app\models\User;
 use Yii;
@@ -163,6 +164,9 @@ class AdminController extends Controller
         return true;
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionUploadpictures()
     {
         if (Yii::$app->request->getIsAjax()){
@@ -178,6 +182,9 @@ class AdminController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * @return bool|\yii\web\Response
+     */
     public function actionDeletepictures()
     {
         if (Yii::$app->request->getIsAjax()){
@@ -188,6 +195,48 @@ class AdminController extends Controller
 
             if ($postPicture->deletePicture()){
                 return true;
+            }
+        }
+        return $this->goHome();
+    }
+
+    /**
+     * @return bool|\yii\web\Response
+     */
+    public function actionAddtag()
+    {
+        if (Yii::$app->request->getIsAjax()){
+            $this->checkAdmin();
+
+            $postId =Yii::$app->request->post('post_id');
+            $tagId = Yii::$app->request->post('tag_id');
+
+            $postTag = new PostTags(['post_id' => $postId, 'tag_id' => $tagId]);
+            if ($postTag->save()){
+                return true;
+            } else{
+                return false;
+            }
+        }
+        return $this->goHome();
+    }
+
+    /**
+     * @return bool|\yii\web\Response
+     */
+    public function actionDeltag()
+    {
+        if (Yii::$app->request->getIsAjax()){
+            $this->checkAdmin();
+
+            $postId =Yii::$app->request->post('post_id');
+            $tagId = Yii::$app->request->post('tag_id');
+
+            $postTag = PostTags::findOne(['post_id' => $postId, 'tag_id' => $tagId]);
+            if ($postTag->delete()){
+                return true;
+            } else{
+                return false;
             }
         }
         return $this->goHome();

@@ -8,11 +8,11 @@ use \yii\db\ActiveRecord;
  * This is the model class for table "post_tags".
  *
  * @property int $id
- * @property string $name
- * @property string $description
+ * @property int $post_id
+ * @property int $tag_id
  *
  */
-class PostTag extends ActiveRecord
+class PostTags extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -27,7 +27,15 @@ class PostTag extends ActiveRecord
      */
     public function getPosts()
     {
-        return $this->hasOne(Posts::className(), ['id' => 'post_id']);
+        return $this->hasOne(Post::class, ['id' => 'post_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasOne(Tag::class, ['id' => 'tag_id']);
     }
 }
 

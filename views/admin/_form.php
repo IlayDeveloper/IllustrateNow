@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use \app\models\Post;
 use \app\models\forms\PostForm;
 use \rmrevin\yii\fontawesome\FA;
+use \app\models\Tag;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\forms\PostForm */
@@ -44,7 +45,7 @@ use \rmrevin\yii\fontawesome\FA;
         <div class="form-pictures">
             <?php $pictures = $post->getPictures()->all();
             foreach ($pictures as $p):?>
-                <?=Html::img($p->getLinkPicture(), ['id' =>$p->id ,'class' => 'post-pictures']);?>
+                <?=Html::img($p->getLinkPicture(), ['id' => $p->id ,'class' => 'post-pictures']);?>
             <?php endforeach ?>
         </div>
     <?php endif ?>
@@ -56,6 +57,26 @@ use \rmrevin\yii\fontawesome\FA;
         Post::STATUS_USUAL => 'Обычный пост',
         Post::STATUS_MEGA => 'Мега пост'
     ]) ?>
+
+    <hr>
+    <h4><strong>Тэги</strong></h4>
+    <div class="form-post-tags">
+        <?php $postTags = $post->getPostTags()->all();?>
+        <?php foreach ($postTags as $postTag):?>
+            <?php $t = Tag::findOne(['id' => $postTag->tag_id]); ?>
+            <span id=<?=$t->id;?> class="post-tag"> <?= $t->name;?></span>
+        <?php endforeach ?>
+    </div>
+    <?=Html::button('Удалить', ['class' => 'btn btn-danger hidden', 'id' =>'tag-btn-del'])?>
+    <?php $tags = Tag::find()->all();?>
+    <div class="form-tags">
+        <?php foreach ($tags as $tag):?>
+            <span id=<?=$tag->id;?> class="post-tag"> <?=strtolower($tag->name);?></span>
+        <?php endforeach ?>
+    </div>
+    <br>
+    <?=Html::button('Добавить', ['class' => 'btn btn-success hidden', 'id' =>'tag-btn-add'])?>
+    <hr>
 
     <?= $form->field($model, 'main_picture')->fileInput() ?>
 

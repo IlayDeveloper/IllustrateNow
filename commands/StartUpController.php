@@ -10,6 +10,7 @@ namespace app\commands;
 use app\models\Post;
 use app\models\PostStatus;
 use app\models\Role;
+use app\models\Tag;
 use app\models\User;
 use Faker\Factory;
 use Faker\Generator;
@@ -42,6 +43,12 @@ class StartUpController extends Controller
         '2' => 'usual',
     ];
 
+    public $tags = [
+        '1' => 'Туториал',
+        '2' => 'Видео',
+        '3' => 'Обзор'
+    ];
+
     /**
      * @var Generator
      */
@@ -56,7 +63,8 @@ class StartUpController extends Controller
 //        $this->generateRoles();
 //        $this->generateAdmin();
 //        $this->generateStatusPost();
-        $this->generatePosts();
+//        $this->generatePosts();
+        $this->generateTags();
     }
 
     public function actionClearing()
@@ -114,7 +122,12 @@ class StartUpController extends Controller
 
     private function generateTags()
     {
-        //
+        foreach ($this->tags as $name){
+            $tag = new Tag();
+            $tag->name = $name;
+            $tag->description = '';
+            $tag->save();
+        }
     }
 
     private function generateStatusPost()

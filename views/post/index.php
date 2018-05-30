@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use \rmrevin\yii\fontawesome\FA;
+use \app\models\Tag;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\PostSearch */
@@ -35,8 +36,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 </h3>
                 <div><?= $post->description; ?></div>
             </div>
-            <div>
-<!--                <?//= $post->postTags?>-->
+            <div class="form-tags">
+                <?php $postTags = $post->getPostTags()->all();?>
+                <?php foreach ($postTags as $postTag):?>
+                    <?php $t = Tag::findOne(['id' => $postTag->tag_id]); ?>
+                    <span id=<?=$t->id;?> class="post-tag"> <?= $t->name;?></span>
+                <?php endforeach ?>
             </div>
             <div>
                  <?=FA::icon(FA::_EYE)?>

@@ -135,3 +135,36 @@
 .post-text-indent{
     text-indent: 1em;
 }
+
+.post-tag{
+    border: solid #000000 1px;
+    font-size: 16px;
+    padding: 4px;
+    margin-right: 10px;
+}
+
+.post-tag-focus{
+    border: solid #000ae0 3px;
+    font-size: 20px;
+    padding: 4px;
+    margin-right: 10px;
+}
+
+.post-tag-picked-focus{
+    border: solid #e00107 3px;
+    font-size: 20px;
+    padding: 4px;
+    margin-right: 10px;
+}
+
+.form-post-tags{
+    margin-bottom: 20px;
+    border: solid grey 1px;
+    padding: 15px;
+    line-height: 35px;
+}
+
+.form-tags{
+    margin-top:3%;
+    margin-bottom: 3%;
+}

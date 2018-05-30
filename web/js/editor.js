@@ -190,4 +190,99 @@
         btnAdd.addClass('hidden');
         btnDel.addClass('hidden');
     }
-})()
+
+
+})();
+
+
+(function(){
+
+    /*Обработка загрузки Тэгов*/
+    var tags = $('.form-tags');
+    var buttonTagAdd = $("#tag-btn-add");
+    var buttonTagDel = $("#tag-btn-del");
+    var currentFocusSpan;
+    var currentFocusPickedSpan;
+    var pickedTags = $(".form-post-tags");
+
+    var postId = $("#post-id").val();
+
+    tags.click(function (e) {
+        resetFocus();
+        var target = e.target;
+        if (target.localName == 'span'){
+            buttonTagAdd.removeClass('hidden');
+            target.classList = 'post-tag-focus';
+            currentFocusSpan = target;
+        } else{
+            buttonTagAdd.addClass('hidden');
+        }
+    });
+
+    pickedTags.click(function (e) {
+        resetFocusPicked();
+        var target = e.target;
+        if (target.localName == 'span'){
+            buttonTagDel.removeClass('hidden');
+            target.classList = 'post-tag-picked-focus';
+            currentFocusPickedSpan = target;
+        } else{
+            buttonTagDel.addClass('hidden');
+        }
+    });
+
+
+    buttonTagDel.click(function () {
+        $.ajax({
+            url: 'deltag',
+            data: 'post_id=' + postId + '&tag_id=' + currentFocusPickedSpan.getAttribute('id'),
+            type: 'POST',
+            success: function (data) {
+                if(data == 1){
+                    currentFocusPickedSpan.remove();
+                } else {
+                    alert("Ошибка удаления");
+                }
+            }
+        });
+    });
+
+    buttonTagAdd.click(function () {
+        $.ajax({
+            url: 'addtag',
+            data: 'post_id=' + postId + '&tag_id=' + currentFocusSpan.getAttribute('id'),
+            type: 'POST',
+            success: function (data) {
+                if (data == 1){
+                    var newSpan = $.clone(currentFocusSpan);
+                    newSpan.classList = 'post-tag';
+                    pickedTags.prepend(newSpan);
+                } else{
+                    alert("Ошибка добавления тэга");
+                }
+            }
+        });
+    });
+
+    function resetFocus(){
+        var children = tags.children("span");
+        for(var span in children){
+            if(typeof (children[span]) == 'object' && children[span].localName == 'span'){
+                if (children[span].classList.value == 'post-tag-focus'){
+                    children[span].classList = 'post-tag';
+                }
+            }
+        }
+    }
+
+    function resetFocusPicked(){
+        var children = pickedTags.children("span");
+        for(var span in children){
+            if(typeof (children[span]) == 'object' && children[span].localName == 'span'){
+                if (children[span].classList.value == 'post-tag-picked-focus'){
+                    children[span].classList = 'post-tag';
+                }
+            }
+        }
+    }
+})();

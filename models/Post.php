@@ -123,7 +123,7 @@ class Post extends ActiveRecord
      */
     public function getPostTags()
     {
-        return $this->hasMany(PostTag::class, ['post_id' => 'id']);
+        return $this->hasMany(PostTags::class, ['post_id' => 'id']);
     }
 
     /**
